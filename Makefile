@@ -1,10 +1,11 @@
 # === Variables ===
 PYTHON              := poetry run python
 PYTEST              := poetry run pytest
+DOCKER_IMAGE        := rag-app
 
 # === Targets ===
 .PHONY: help install test test-unit test-integration \
-        lint format clean dev ci
+        lint format clean docker-build docker-run-save docker-run-retrieve
 
 # === General Help ===
 help: ## Show this help message
@@ -49,4 +50,12 @@ clean: ## Clean up Python cache and test artifacts
 	find . -type d -name ".pytest_cache" -exec rm -rf {} +
 	find . -type d -name "htmlcov" -exec rm -rf {} +
 
+# === Docker Commands ===
+docker-build: ## Build unified Docker image
+	docker build -t $(DOCKER_IMAGE) .
 
+docker-run-save: ## Run save operation
+	docker run -v $(PWD)/data:/app/data -v $(PWD)/chroma_db:/app/chroma_db $(DOCKER_IMAGE) save
+
+docker-run-retrieve: ## Run retrieve operation
+	docker run -v $(PWD)/data:/app/data -v $(PWD)/chroma_db:/app/chroma_db -p 8000:8000 $(DOCKER_IMAGE) retrieve

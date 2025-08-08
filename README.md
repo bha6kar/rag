@@ -20,6 +20,8 @@ A Python-based Retrieval-Augmented Generation (RAG) system that enables intellig
 
 ## 🛠️ Installation
 
+### Option 1: Local Installation
+
 1. **Clone the repository**:
    ```bash
    git clone <repository-url>
@@ -40,6 +42,35 @@ A Python-based Retrieval-Augmented Generation (RAG) system that enables intellig
    
    # Authenticate with Google Cloud
    gcloud auth application-default login
+   ```
+
+### Option 2: Docker Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd rag
+   ```
+
+2. **Set up Google Cloud credentials**:
+   ```bash
+   # Create credentials directory
+   mkdir -p credentials
+   
+   # Download your service account key and place it in credentials/
+   # Name it: service-account-key.json
+   ```
+
+3. **Unified Docker Image**:
+   ```bash
+   # Build the unified image
+   make docker-build
+   
+   # Run save operation (process documents)
+   make docker-run-save
+   
+   # Run retrieve operation (query documents)
+   make docker-run-retrieve
    ```
 
 ## ⚙️ Configuration
@@ -65,7 +96,26 @@ vectordb_path: "chroma_db"
 
 ### Environment Variables
 
-- `GCP_PROJECT`: Your Google Cloud Project ID (optional, can be set in config)
+You can use environment variables in several ways:
+
+1. **Local Environment**: Set variables in your shell
+   ```bash
+   export GCP_PROJECT="your-project-id"
+   export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials.json"
+   ```
+
+2. **Docker Environment**: Create a `.env` file in the project root
+   ```bash
+   # .env file
+   GCP_PROJECT=your-project-id
+   GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/service-account-key.json
+   ```
+
+3. **Config File**: Set in `src/config/llm-config.yml` (as shown above)
+
+**Available Environment Variables:**
+- `GCP_PROJECT`: Your Google Cloud Project ID
+- `GOOGLE_APPLICATION_CREDENTIALS`: Path to your service account key file
 
 ## 📖 Usage
 
