@@ -1,0 +1,16 @@
+[flake8]
+ignore = E114, E116, E133, E266, E302, E402, W503, W504, E203
+max-doc-length = 150
+max-complexity = -1
+max-line-length = 250
+per-file-ignores = **/__init__.py:F401
+
+exclude =
+    migrations
+    __pycache__
+    manage.py
+    settings.py
+    env
+    .env
+    venv
+    .venv

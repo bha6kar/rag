@@ -1,0 +1,15 @@
+# Model config
+project_id: "abc-dev"
+location: "us-west1"
+model_name: "gemini-2.0-flash-001"
+embedding_model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
+# Generation config
+temperature: 0.2
+max_output_tokens: 1024
+top_k: 40
+top_p: 1
+# Gemini docs https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/content-generation-parameters
+
+# RAG config
+vectordb_path: "chroma_db"
