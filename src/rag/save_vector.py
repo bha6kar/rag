@@ -1,6 +1,7 @@
 """Vector store creation and saving functionality."""
 
 import os
+import stat
 from typing import List, Optional
 
 import pdfplumber
@@ -66,8 +67,17 @@ def save_vector_store(
         if not force_recreate:
             existing_store = load_vector_store(chroma_dir)
             if existing_store:
-                logger.info("Using existing vector store.")
-                return existing_store
+                try:
+                    collections = existing_store._client.list_collections()
+                    if collections and any(c.count() > 0 for c in collections):
+                        logger.info("Using existing vector store with data.")
+                        return existing_store
+                    else:
+                        logger.info(
+                            "Vector store exists but has no data. Recreating..."
+                        )
+                except Exception as e:
+                    logger.warning(f"Could not inspect existing vector store: {e}")
 
         if documents is None:
             documents = load_pdf_documents(pdf_path, extra_metadata=extra_metadata)
