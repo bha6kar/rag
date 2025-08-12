@@ -55,7 +55,7 @@ docker-build: ## Build unified Docker image
 	docker build -t $(DOCKER_IMAGE) .
 
 docker-run-save: ## Run save operation
-	docker run -v $(PWD)/data:/app/data -v $(PWD)/chroma_db:/app/chroma_db $(DOCKER_IMAGE) save
+	docker run --rm -v "$(PWD)/chroma_db:/app/chroma_db" $(DOCKER_IMAGE) save
 
 docker-run-retrieve: ## Run retrieve operation
-	docker run -v $(PWD)/data:/app/data -v $(PWD)/chroma_db:/app/chroma_db -p 8000:8000 $(DOCKER_IMAGE) retrieve
+	docker run --rm -v "$(HOME)/.config/gcloud:/root/.config/gcloud:ro" -v "$(PWD)/chroma_db:/app/chroma_db" -e GCP_PROJECT="$(GCP_PROJECT)" $(DOCKER_IMAGE) retrieve

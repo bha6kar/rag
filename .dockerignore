@@ -64,7 +64,6 @@ Makefile
 *.log
 
 # Data (will be mounted as volume)
-data/
 chroma_db/
 
 # Temporary files
