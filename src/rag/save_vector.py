@@ -1,7 +1,6 @@
 """Vector store creation and saving functionality."""
 
 import os
-import stat
 from typing import List, Optional
 
 import pdfplumber
@@ -68,8 +67,8 @@ def save_vector_store(
             existing_store = load_vector_store(chroma_dir)
             if existing_store:
                 try:
-                    collections = existing_store._client.list_collections()
-                    if collections and any(c.count() > 0 for c in collections):
+                    has_data = bool(existing_store.similarity_search("", k=1))
+                    if has_data:
                         logger.info("Using existing vector store with data.")
                         return existing_store
                     else:
